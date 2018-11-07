@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			body{
+				padding: 0;
+				margin: 0;
+				height: 1000px;
+			}
+			#shareBox{
+				position: fixed;
+				left: -302px;
+				width: 300px;
+				height: 300px;
+				border: 1px solid #CECECE;
+			}
+			#shareBox div{
+				position: absolute;
+				top: 50%;
+				margin-top: -40px;
+				left: 300px;
+				width: 20px;
+				padding: 10px;
+				border: 1px solid #CECECE;
+			}
+			#fdAdv{
+				position: absolute;
+				right: 0;
+				width: 100px;
+				height: 300px;
+				border: 1px solid #CECECE;
+			}
+			#btn{
+				display: none;
+				position: fixed;
+				right: 10px;
+				bottom: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="shareBox">
+			<div>分享到</div>
+		</div>
+		<div id="fdAdv"></div>
+		<div id="btn">回到顶部</div>
+		<script src="startMove.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var oShareBox = document.getElementById("shareBox");
+			
+			oShareBox.onmouseover = function(){
+				startMove(oShareBox,{left:"0"});
+			}
+			oShareBox.onmouseout = function(){
+				startMove(oShareBox,{left:"-302"});
+			}
+			
+			var oFdAdv = document.getElementById("fdAdv");
+			var clientHei = document.documentElement.clientHeight;
+			var hei = oFdAdv.offsetHeight;
+			
+			oFdAdv.style.top = (clientHei - hei)/2 + "px";
+			
+			window.onscroll = function(){
+				var scrollTop = document.documentElement.scrollTop;
+				var _target = parseInt(scrollTop + (clientHei - hei)/2);
+				startMove(oFdAdv,{top:_target});
+			}
+			var oBtn = document.getElementById("btn");
+			window.onscroll = function(){
+				var scrollTop = document.documentElement.scrollTop;
+				if(scrollTop > 200){
+					oBtn.style.display = "block";
+				}
+			}
+			var timer = null;
+			oBtn.onclick = function(){
+				clearInterval(timer);
+				var _target = 0;
+				timer = setInterval(function(){
+					var icur = document.documentElement.scrollTop;
+					var iSpeed = Math.floor((_target-icur)/7);
+					document.documentElement.scrollTop = icur + iSpeed;
+					
+					if(icur == _target){
+						clearInterval(timer);
+					}
+				},20)
+			}
+			
+		</script>
+	</body>
+</html>

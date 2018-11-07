@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			body{
+				padding: 0;
+				margin: 0;
+			}
+			#circle{
+				position: relative;
+				width: 300px;
+				height: 300px;
+				background: blue;
+				border-radius: 50%;
+			}
+			#ball{
+				position: absolute;
+				width: 20px;
+				height: 20px;
+				margin-top: -10px;
+				margin-left: -10px;
+				background: red;
+				border-radius: 50%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="circle">
+			<div id="ball"></div>
+		</div>
+		<script type="text/javascript">
+			var oCircle = document.getElementById("circle");
+			var oBall = document.getElementById("ball");
+			var angle = 0;
+			var r = oCircle.offsetWidth/2;
+			var timer = setInterval(function(){
+				angle++;
+				
+				var x = r*Math.cos(Math.PI/180*angle);
+				var y = r*Math.sin(Math.PI/180*angle);
+				
+				oBall.style.left = r + x + "px";
+				oBall.style.top = r+ y + "px";
+			},20);
+			
+			
+			
+		</script>
+	</body>
+</html>
