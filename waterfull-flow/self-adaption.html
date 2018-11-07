@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#wrap{
+				position: relative;
+			}
+			#wrap div{
+				position: absolute;
+				border: 1px solid #CECECE;
+			}
+			img{
+				display: block;
+				border: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<div><img src="img2/1.jpg"></div>
+			<div><img src="img2/2.jpg"></div>
+			<div><img src="img2/3.jpg"></div>
+			<div><img src="img2/4.jpg"></div>
+			<div><img src="img2/5.jpg"></div>
+			<div><img src="img2/6.jpg"></div>
+			<div><img src="img2/7.jpg"></div>
+			<div><img src="img2/8.jpg"></div>
+			<div><img src="img2/9.jpg"></div>
+			<div><img src="img2/1.jpg"></div>
+			<div><img src="img2/2.jpg"></div>
+			<div><img src="img2/1.jpg"></div>
+			<div><img src="img2/2.jpg"></div>
+			<div><img src="img2/3.jpg"></div>
+			<div><img src="img2/4.jpg"></div>
+			<div><img src="img2/5.jpg"></div>
+			<div><img src="img2/6.jpg"></div>
+			<div><img src="img2/7.jpg"></div>
+			<div><img src="img2/8.jpg"></div>
+			<div><img src="img2/9.jpg"></div>
+			<div><img src="img2/1.jpg"></div>
+			<div><img src="img2/2.jpg"></div>
+		</div>
+		<script type="text/javascript">
+			//排第一行的区块
+			window.onload = window.onresize = function(){
+				var oWrap = document.getElementById("wrap");
+				var aItems = oWrap.children;
+				var ml = mt = 10;
+				var perWidth = aItems[0].offsetWidth + ml;
+				var totalWidth = oWrap.offsetWidth;
+				var col = Math.floor(totalWidth/perWidth);
+				//定义一个数组，保存每一列高度，从中找到最小高度，将接下来的区块放到这个最小高度对应的列中
+				
+				var arrHei = [];
+				for(var i = 0; i < col; i++){
+					aItems[i].style.top = 0;
+					aItems[i].style.left = perWidth*i + "px";
+					arrHei.push(aItems[i].offsetHeight);
+				}
+				
+				//排剩余的所有的区块
+				
+				for(var j = col; j < aItems.length; j++){
+					aItems[j].style.top = arrHei[getMinIndex(arrHei)] + mt + "px";
+					aItems[j].style.left = aItems[getMinIndex(arrHei)].style.left;
+					//排完一个之后，数组中保存的每列的高度立即更新
+					arrHei[getMinIndex(arrHei)] += aItems[j].offsetHeight+mt;
+				}
+				
+				//取数组中的最小值及其索引
+				function getMinIndex(arr){
+					var minVal = Math.min.apply(null,arr);
+					var minIndex = arr.indexOf(minVal);
+					return minIndex;
+				}
+				
+				
+				window.onscroll = function(){
+					var data = ["","","","",""];
+					//放到wrap里面
+					//然后再按照上面方式进行排列
+					
+					
+				}
+				
+				
+
+			}
+			
+		</script>
+	</body>
+</html>

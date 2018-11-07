@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			body,ul,li{
+				margin: 0;
+				padding: 0;
+			}
+			body{
+				height: 1000px;
+			}
+			ul,li{
+				list-style: none;
+			}
+			img{
+				display: block;
+				border: none;
+			}
+			#zoomBox{
+				position: relative;
+				margin: 20px;
+				width: 400px;
+				border: 1px solid #CECECE;
+			}
+			#midArea img{
+				width: 400px;
+				height: 400px;
+			}
+			#midArea{
+				cursor: move;
+			}
+			#zoom{
+				/*display: none;*/
+				position: absolute;
+				width: 200px;
+				height: 200px;
+				background: yellow;
+				opacity: .5;
+			}
+			#bigArea{
+				/*display: none;*/
+				position: absolute;
+				left: 400px;
+				top: -1px;
+				border: 1px solid #CECECE;
+				width: 400px;
+				height: 400px;
+				overflow: hidden;
+			}
+			#bigArea img{
+				position: absolute;
+				width: 800px;
+				height: 800px;
+			}
+			#smallArea ul{
+				display: flex;
+				height: 100px;
+				width: 400px;
+				border-top: 1px solid #CECECE;
+				align-items: center;
+				justify-content: space-around;
+			}
+			#smallArea li{
+				border: 2px solid white;
+				padding: 6px;
+			}
+			#smallArea li:hover,#smallArea li.hover{
+				border: 2px solid red;
+			}
+			#smallArea img{
+				width: 60px;
+				height: 60px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="zoomBox">
+			<div id="midArea">
+				<img src="img/m01.jpg">
+				<div id="zoom"></div>
+			</div>
+			<div id="bigArea">
+				<img src="img/m01.jpg">
+			</div>
+			<div id="smallArea">
+				<ul>
+					<li class="hover"><img src="img/m01.jpg"></li>
+					<li><img src="img/m02.jpg"></li>
+					<li><img src="img/m03.jpg"></li>
+					<li><img src="img/m04.jpg"></li>
+					<li><img src="img/m05.jpg"></li>
+				</ul>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var oZoomBox = document.getElementById("zoomBox");
+			var oMidArea = document.getElementById("midArea");
+			var oMidImg = oMidArea.children[0];
+			var oZoom = document.getElementById("zoom");
+			var oBigArea = document.getElementById("bigArea");
+			var oBigImg = oBigArea.children[0];
+			var oSmallArea = document.getElementById("smallArea");
+			var smallList = oSmallArea.children[0].children;
+			//鼠标移入中图上，放大镜和大图区域显示
+			
+			oMidArea.onmouseover = function(){
+				oZoom.style.display = "block";
+				oBigArea.style.display = "block";
+			}
+			oMidArea.onmouseout = function(){
+				oZoom.style.display = "none";
+				oBigArea.style.display = "none";
+			}
+			oMidArea.onmousemove = function(e){
+				var evt = e || event;
+				var x = evt.pageX - oZoomBox.offsetLeft;
+				var y = evt.pageY - oZoomBox.offsetTop;
+				
+				//事件源一直在midArea和zoom之间切换
+				/*var x = evt.offsetX;
+				var y = evt.offsetY;*/
+				
+				
+				x = x - oZoom.offsetWidth/2;
+				y = y - oZoom.offsetHeight/2;
+				
+				
+				if(x <= 0){
+					x = 0;
+				}
+				if(x>=oMidArea.offsetWidth-oZoom.offsetWidth){
+					x=oMidArea.offsetWidth-oZoom.offsetWidth;
+				}
+				
+				if(y<=0){
+					y = 0;
+				}
+				if(y>=oMidArea.offsetHeight-oZoom.offsetHeight){
+					y = oMidArea.offsetHeight-oZoom.offsetHeight;
+				}
+				
+				oZoom.style.left = x + "px";
+				oZoom.style.top = y + "px";
+				
+				
+				oBigImg.style.left = - oZoom.offsetLeft/oMidArea.offsetWidth*oBigImg.offsetWidth + "px";
+				oBigImg.style.top = - oZoom.offsetTop/oMidArea.offsetHeight*oBigImg.offsetHeight + "px";
+				
+			}
+			
+			for(var i = 0; i < smallList.length; i++){
+				smallList[i].onclick = function(){
+					for(var j = 0; j < smallList.length; j++){
+						smallList[j].className = "";
+					}
+					this.className = "hover";
+//					oMidImg.src = this.children[0].src;
+//					oBigImg.src = this.children[0].src;
+				}
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			body,ul,li{
+				padding: 0;
+				margin: 0;
+			}
+			li{
+				list-style: none;
+				float: left;
+				width: 27px;
+				height: 28px;
+				background: url(img/star.gif) no-repeat 0 0;
+			}
+		</style>
+	</head>
+	<body>
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<script type="text/javascript">
+			var aLi = document.getElementsByTagName("li");
+			var flag = false; //默认没有点击
+			var index = 0; //保存点击的是那个星星
+			for(let i = 0; i < aLi.length; i++){
+				aLi[i].onmouseover = function(){
+					for(var j = 0; j < aLi.length; j++){
+						aLi[j].style.backgroundPosition = "0 0";
+					}
+					for(var j = 0; j <= i; j++){
+						aLi[j].style.backgroundPosition = "0 -28px";
+					}
+				}
+				aLi[i].onmouseout = function(){
+					/*if(flag){
+						for(var j = index+1; j < aLi.length; j++){
+							aLi[j].style.backgroundPosition = "0 0";
+						}
+					}else{
+						for(var j = 0; j < aLi.length; j++){
+							aLi[j].style.backgroundPosition = "0 0";
+						}
+					}*/
+					for(var j = 0; j < aLi.length; j++){
+						aLi[j].style.backgroundPosition = "0 0";
+					}
+					if(flag){
+						for(var j = 0; j <= index; j++){
+							aLi[j].style.backgroundPosition = "0 -28px";
+						}
+					}
+					
+				}
+				aLi[i].onclick = function(){
+					flag = true;
+					index = i;
+				}
+				
+			}
+		</script>
+	</body>
+</html>
